@@ -1,22 +1,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const app = express();
 
-app.use('/', express.static('public'));
 
-mongoose.connect('mongodb://localhost:27017/budget', {
+
+mongoose.connect('mongodb://0.0.0.0:27017/budget', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const db = mongoose.connection;
+app.get('/fetch', async (req, res) => {
+  const entries = await BudgetEntry.find({});
+  res.json(entries);
+});
 
-db.on('error', console.error.bind(
-  console, 'MongoDB connection error:'
-));
+app.post('/add', async (req, res) => {
+  const { title, relatedValue, color } = req.body;
+  const newEntry = new BudgetEntry({ title, relatedValue, color });
+  await newEntry.save();
+  res.status(201).json(newEntry);
+});
 
-const budgetItemSchema = new mongoose.Schema({
+app.use('/', express.static('public'));
+
+const budgetEntrySchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -28,30 +35,15 @@ const budgetItemSchema = new mongoose.Schema({
   color: {
     type: String,
     required: true,
-    match: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
+    validate: /^#([A-Fa-f0-9]{6})$/,
   },
 });
 
-const BudgetItem = mongoose.model('BudgetItem', budgetItemSchema);
+const BudgetEntry = mongoose.model('BudgetEntry', budgetEntrySchema);
 
-
-app.get('/api/budget', async (req, res) => {
-    const budgetItems = await BudgetItem.find();
-    res.json(budgetItems);
-   
+app.listen(3000, () => {
+  console.log('Server is listening on port 3000');
 });
-
-app.post('/api/budget', async (req, res) => {
-    const newBudgetItem = new BudgetItem(req.body);
-    await newBudgetItem.save();
-    res.json(newBudgetItem);
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-
 
 
 
