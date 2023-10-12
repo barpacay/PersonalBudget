@@ -67,50 +67,11 @@
                 <h2>Chart</h2>
                 <p>
                   <canvas id="myChart" width="400" height="400"></canvas>
+                  <div id="d3Chart"></div>
                 </p>
             </div>
-    
-<!-- This is an A11y Change --><!-- <div class="text-box">
-                <h1>Stay on track</h1>
-                <p>
-                    Do you know where you are spending your money? If you really stop to track it down,
-                    you would get surprised! Proper budget management depends on real data... and this
-                    app will help you with that!
-                </p>
-            </div>
-    
-            <div class="text-box">
-                <h1>Alerts</h1>
-                <p>
-                    What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
-                </p>
-            </div>
-
-    
-            div class="text-box">
-                <h1>Results</h1>
-                <p>
-                    People who stick to a financial plan, budgeting every expense, get out of debt faster!
-                    Also, they to live happier lives... since they expend without guilt or fear... 
-                    because they know it is all good and accounted for.
-                </p>
-            </div>
-
-            <div class="text-box">
-                <h1>Free</h1>
-                <p>
-                    This app is free!!! And you are the only one holding your data!
-                </p>
-            </div>
--->
-
         </div>
-        <div id="d3Chart">
-        
-            
-        </div>
-
-    </div>
+</div>
             
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js" integrity="sha512-aoTNnqZcT8B4AmeCFmiSnDlc4Nj/KPaZyB5G7JnOnUEkdNpCZs1LCankiYi01sLTyWy+m2P+W4XM+BuQ3Q4/Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>   
@@ -143,19 +104,24 @@
             });
         }
         function getBudget(){
-            axios.get('/budget')
-            .then(function(res){
+            axios.get('/api/budget')
+            .then(function (res) {
                 console.log(res);
-                change(randomData(res.data.myBudget));
-                for(var i=0;i<res.data.length;i++){
-                    dataSource.datasets[0].data[i]=res.data.myBudget[i].budget;
-                    dataSource.labels[i]=res.data.myBudget[i].title;
-                }
+                var newData = res.data; 
+                var newDataForChart = randomData(newData);
+                change(newDataForChart);
+                dataSource.datasets[0].data = newData.map(function (item){
+                    return item.budget;
+                });
+                dataSource.labels = newData.map(function (item) {
+                    return item.title;
+                });
                 createChart();
             });
         }
         getBudget();
     </script>
+    
     <style>
         #d3Chart {
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
