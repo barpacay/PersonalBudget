@@ -1,1 +1,21 @@
-<p>home works!</p>
+<div class="container-fluid">
+  <h1>Login or Signup</h1>
+
+  <main>
+    <div class="row">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" [(ngModel)]="username">
+    </div>
+
+    <div class="row">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" [(ngModel)]="password">
+    </div>
+
+    <div>
+      <button (click)="authenticate('login')">Login</button>
+      <button (click)="authenticate('signup')">Signup</button>
+    </div>
+  </main>
+</div>
+
