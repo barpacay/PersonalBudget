@@ -9,12 +9,14 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UtestingComponent } from './utesting/utesting.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     DashboardComponent,
+    UtestingComponent,
   ],
   imports: [
     BrowserModule,

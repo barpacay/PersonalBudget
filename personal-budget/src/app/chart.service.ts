@@ -20,6 +20,13 @@ export class ChartService {
 
     const chartConfig: ChartConfiguration = this.getDefaultChartConfig(labels, chartData, chartType);
 
+    const existingChart = this.chartInstances.find(chart => chart.ctx.canvas === canvas.nativeElement);
+
+    if (existingChart) {
+      existingChart.destroy();
+      this.chartInstances = this.chartInstances.filter(chart => chart !== existingChart);
+    }
+
     const ctx = canvas.nativeElement.getContext('2d');
     if (ctx) {
       const newChart = new Chart(ctx, chartConfig);
@@ -44,6 +51,7 @@ export class ChartService {
       },
     };
   }
+
 
   addBudgetEntry(entry: any): Observable<any> {
     return this.http.post('http://localhost:3000/add', entry)

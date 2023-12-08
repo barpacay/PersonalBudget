@@ -2,7 +2,6 @@ import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ChartService } from '../chart.service';
 import { Router } from '@angular/router';
-import { ChartType } from 'chart.js/auto';
 
 @Component({
   selector: 'pb-dashboard',
@@ -45,6 +44,7 @@ export class DashboardComponent implements AfterViewInit {
     this.chartService.generateChart(this.chartCanvasColumn, this.expenses, 'bar');
     this.chartService.generateChart(this.chartCanvasBar, this.expenses, 'bar');
   }
+
 
   logout(): void {
     this.router.navigate(['/']);

@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-             "outputPath": "dist/personal-budget",
+            "outputPath": "dist/personal-budget",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -33,7 +33,6 @@
               "src/styles.scss"
             ],
             "scripts": []
-
           },
           "configurations": {
             "production": {
@@ -98,11 +97,65 @@
             ],
             "scripts": []
           }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "personal-budget:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "personal-budget:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "ct": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "personal-budget:serve",
+            "watch": true,
+            "headless": false,
+            "testingType": "component"
+          },
+          "configurations": {
+            "development": {
+              "devServerTarget": "personal-budget:serve:development"
+            }
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "personal-budget:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "personal-budget:serve:production"
+            }
+          },
+          "visual-regression": {
+            "builder": "./node_modules/.bin/ng",
+            "options": {
+              "script": "test:visual"
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": "a49360fb-3ebf-4d30-a173-20603a0b5a79"
+    "analytics": "a49360fb-3ebf-4d30-a173-20603a0b5a79",
+    "schematicCollections": [
+      "@cypress/schematic",
+      "@schematics/angular"
+    ]
   }
 }

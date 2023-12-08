@@ -58,7 +58,6 @@ app.post('/api/login', (req, res) => {
 app.post('/api/signup', (req, res) => {
   const { username, password } = req.body;
 
-  // Check if the username already exists
   connection.query('SELECT * FROM Users WHERE username = ?', [username], (selectErr, existingUser) => {
     if (selectErr) {
       console.error('Error checking existing user:', selectErr);
@@ -66,11 +65,9 @@ app.post('/api/signup', (req, res) => {
     }
 
     if (existingUser.length > 0) {
-      // User with the given username already exists
       return res.status(400).json({ error: 'Username is already taken' });
     }
 
-    // If the username is not taken, proceed with user creation
     bcrypt.hash(password, 10, (bcryptErr, hash) => {
       if (bcryptErr) {
         console.error('Error hashing password:', bcryptErr);
@@ -93,7 +90,7 @@ app.post('/api/signup', (req, res) => {
   });
 });
 
-
+// Endpoint for fetching all entries
 app.get('/fetch', (req, res) => {
   connection.query('SELECT * FROM Budget', (err, results) => {
     if (err) {
@@ -105,6 +102,7 @@ app.get('/fetch', (req, res) => {
   });
 });
 
+// Endpoint for adding a new entry
 app.post('/add', (req, res) => {
   const { title, relatedValue, color } = req.body;
   const query = 'INSERT INTO Budget (title, relatedValue, color) VALUES (?, ?, ?)';
