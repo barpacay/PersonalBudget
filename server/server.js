@@ -1,51 +1,128 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const mysql = require('mysql2');
+const cors = require('cors');
+const bcrypt = require('bcrypt'); 
+const jwt = require('jsonwebtoken'); 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
-mongoose.connect('mongodb://0.0.0.0:27017/budget', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+const connection = mysql.createConnection({
+  host: 'sql5.freemysqlhosting.net',
+  user: 'sql5668528',
+  password: 'QcvYTWkMkt',
+  database: 'sql5668528',
 });
 
-app.get('/fetch', async (req, res) => {
-  const entries = await BudgetEntry.find({});
-  res.json(entries);
+connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+  } else {
+    console.log('Connected to MySQL database');
+  }
 });
 
-app.post('/add', async (req, res) => {
+// Endpoint for user login
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+
+  connection.query('SELECT * FROM Users WHERE username = ?', [username], (err, results) => {
+    if (err) {
+      console.error('Error fetching user from MySQL:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (results.length > 0) {
+        const user = results[0];
+        bcrypt.compare(password, user.password, (bcryptErr, bcryptResult) => {
+          if (bcryptErr) {
+            console.error('Error comparing passwords:', bcryptErr);
+            res.status(500).json({ error: 'Internal Server Error' });
+          } else {
+            if (bcryptResult) {
+              const token = jwt.sign({ username: user.username }, 'bma123', { expiresIn: '1h' });
+              res.json({ token });
+            } else {
+              res.status(401).json({ error: 'Unauthorized' });
+            }
+          }
+        });
+      } else {
+        res.status(401).json({ error: 'Unauthorized' });
+      }
+    }
+  });
+});
+
+// Endpoint for user signup
+app.post('/api/signup', (req, res) => {
+  const { username, password } = req.body;
+
+  // Check if the username already exists
+  connection.query('SELECT * FROM Users WHERE username = ?', [username], (selectErr, existingUser) => {
+    if (selectErr) {
+      console.error('Error checking existing user:', selectErr);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    if (existingUser.length > 0) {
+      // User with the given username already exists
+      return res.status(400).json({ error: 'Username is already taken' });
+    }
+
+    // If the username is not taken, proceed with user creation
+    bcrypt.hash(password, 10, (bcryptErr, hash) => {
+      if (bcryptErr) {
+        console.error('Error hashing password:', bcryptErr);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      const insertQuery = 'INSERT INTO Users (username, password) VALUES (?, ?)';
+      const insertValues = [username, hash];
+
+      connection.query(insertQuery, insertValues, (insertErr, results) => {
+        if (insertErr) {
+          console.error('Error adding user to MySQL:', insertErr);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        const newUser = { username, id: results.insertId };
+        res.status(201).json(newUser);
+      });
+    });
+  });
+});
+
+
+app.get('/fetch', (req, res) => {
+  connection.query('SELECT * FROM Budget', (err, results) => {
+    if (err) {
+      console.error('Error fetching entries from MySQL:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.post('/add', (req, res) => {
   const { title, relatedValue, color } = req.body;
-  const newEntry = new BudgetEntry({ title, relatedValue, color });
-  await newEntry.save();
-  res.status(201).json(newEntry);
+  const query = 'INSERT INTO Budget (title, relatedValue, color) VALUES (?, ?, ?)';
+  const values = [title, relatedValue, color];
+
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      console.error('Error adding entry to MySQL:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      const newEntry = { title, relatedValue, color, id: results.insertId };
+      res.status(201).json(newEntry);
+    }
+  });
 });
 
 app.use('/', express.static('public'));
 
-const budgetEntrySchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  relatedValue: {
-    type: Number,
-    required: true,
-  },
-  color: {
-    type: String,
-    required: true,
-    validate: /^#([A-Fa-f0-9]{6})$/,
-  },
-});
-
-const BudgetEntry = mongoose.model('BudgetEntry', budgetEntrySchema);
-
 app.listen(3000, () => {
   console.log('Server is listening on port 3000');
 });
-
-
-
-
-

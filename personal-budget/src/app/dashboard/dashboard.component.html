@@ -1,4 +1,29 @@
 <div>
-  <h1>Dashboard</h1>
-  <button (click)="logout()">Logout</button>
+  <h1>Welcome to Your Dashboard!</h1>
+
+  <div class="dashboard">
+    <h2>Budget</h2>
+    <form (submit)="createUserInput()">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" [(ngModel)]="userInput.title" required />
+
+      <label for="relatedValue">Related Value:</label>
+      <input type="number" id="relatedValue" name="relatedValue" [(ngModel)]="userInput.relatedValue" required />
+
+      <label for="color">Color:</label>
+      <input type="text" id="color" name="color" [(ngModel)]="userInput.color" required />
+
+      <div class="button-group">
+        <button type="submit">Add Entry</button>
+        <button (click)="logout()">Logout</button>
+      </div>
+    </form>
+  </div>
+
+  <div>
+    <canvas #chartCanvasPie id="chartCanvasPie" width="400" height="400"></canvas>
+    <canvas #chartCanvasColumn id="chartCanvasColumn" width="400" height="400"></canvas>
+    <canvas #chartCanvasBar id="chartCanvasBar" width="400" height="400"></canvas>
+  </div>
 </div>
+

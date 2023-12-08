@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/personal-budget",
+             "outputPath": "dist/personal-budget",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -33,6 +33,7 @@
               "src/styles.scss"
             ],
             "scripts": []
+
           },
           "configurations": {
             "production": {
