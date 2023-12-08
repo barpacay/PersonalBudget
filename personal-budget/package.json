@@ -41,6 +41,7 @@
     "@angular/cli": "~16.2.3",
     "@angular/compiler-cli": "^16.2.0",
     "@angular/localize": "^16.2.0",
+    "@applitools/eyes-cypress": "^3.40.1",
     "@cypress/schematic": "^2.5.1",
     "@types/d3": "^7.4.3",
     "@types/jasmine": "~4.3.0",

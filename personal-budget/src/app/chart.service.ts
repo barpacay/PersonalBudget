@@ -15,18 +15,20 @@ export class ChartService {
   chartInstances: Chart[] = [];
 
   generateChart(canvas: ElementRef, data: any[], chartType: ChartType): void {
-    const labels = data.map(item => item.Framework);
-    const chartData = data.map(item => item.Stars);
+    const labels = data.map(item => item.title);
+    const chartData = data.map(item => item.relatedValue);
+    const backgroundColor = data.map(item => item.color);
 
-    const chartConfig: ChartConfiguration = this.getDefaultChartConfig(labels, chartData, chartType);
+    const chartConfig: ChartConfiguration = this.getDefaultChartConfig(labels, chartData,backgroundColor, chartType);
 
     const existingChart = this.chartInstances.find(chart => chart.ctx.canvas === canvas.nativeElement);
-
+    console.log(existingChart);
     if (existingChart) {
+      console.log(data);
       existingChart.destroy();
       this.chartInstances = this.chartInstances.filter(chart => chart !== existingChart);
     }
-
+    console.log(data);
     const ctx = canvas.nativeElement.getContext('2d');
     if (ctx) {
       const newChart = new Chart(ctx, chartConfig);
@@ -34,15 +36,15 @@ export class ChartService {
     }
   }
 
-  getDefaultChartConfig(labels: string[], data: number[], chartType: ChartType): ChartConfiguration {
+  getDefaultChartConfig(labels: string[], data: number[], backgroundColor:string[], chartType: ChartType): ChartConfiguration {
     return {
       type: chartType,
       data: {
         labels: labels,
         datasets: [{
-          label: 'Expenses',
+          label: 'Budget',
           data: data,
-          backgroundColor: ['#ffcd56', '#ff6384', '#36a2eb', '#fd6b19'],
+          backgroundColor: backgroundColor,
         }],
       },
       options: {

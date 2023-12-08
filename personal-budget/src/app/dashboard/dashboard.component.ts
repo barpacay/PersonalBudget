@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements AfterViewInit {
   expenses: any[] = [];
+  // data: number[] = [];
   userInput: any = {};
 
   @ViewChild('chartCanvasPie') chartCanvasPie!: ElementRef;
@@ -41,7 +42,7 @@ export class DashboardComponent implements AfterViewInit {
 
   createCharts(): void {
     this.chartService.generateChart(this.chartCanvasPie, this.expenses, 'pie');
-    this.chartService.generateChart(this.chartCanvasColumn, this.expenses, 'bar');
+    this.chartService.generateChart(this.chartCanvasColumn, this.expenses, 'doughnut');
     this.chartService.generateChart(this.chartCanvasBar, this.expenses, 'bar');
   }
 
