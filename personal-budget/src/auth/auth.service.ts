@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { MatDialog } from '@angular/material/dialog';
+import { SessionExpirationDialogComponent } from 'src/app/session-expiration-dialog/session-expiration-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +13,8 @@ export class AuthService {
   private apiUrl = 'http://localhost:3000/api';
   private jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private dialog: MatDialog) {}
+
 
   login(data: { username: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, data)
@@ -39,9 +42,11 @@ export class AuthService {
       const warningThreshold = 20;
 
       if (timeUntilExpiration < warningThreshold) {
-        console.warn('Your session will expire soon. Please refresh or log in again.');
-      }
-
+        this.dialog.open(SessionExpirationDialogComponent, {
+           width: '400px',
+           disableClose: true
+        });
+       }
       return token;
     }
 

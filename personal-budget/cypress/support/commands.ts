@@ -1,8 +1,3 @@
-// ***********************************************
-// This example namespace declaration will help
-// with Intellisense and code completion in your
-// IDE or Text Editor.
-// ***********************************************
 // declare namespace Cypress {
 //   interface Chainable<Subject = any> {
 //     customCommand(param: any): typeof customCommand;
@@ -41,3 +36,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+// cypress/support/commands.js
+
+
+

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';  // Import HttpClientModule
-
+import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -10,6 +10,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UtestingComponent } from './utesting/utesting.component';
+import { SessionExpirationDialogComponent } from './session-expiration-dialog/session-expiration-dialog.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { UtestingComponent } from './utesting/utesting.component';
     HomeComponent,
     DashboardComponent,
     UtestingComponent,
+    SessionExpirationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ import { UtestingComponent } from './utesting/utesting.component';
     HttpClientModule,
     CanvasJSAngularChartsModule,
     NgbModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
