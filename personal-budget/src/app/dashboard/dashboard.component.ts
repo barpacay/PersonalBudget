@@ -51,4 +51,3 @@ export class DashboardComponent implements AfterViewInit {
     this.router.navigate(['/']);
   }
 }
-
