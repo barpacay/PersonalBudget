@@ -10,7 +10,7 @@
           "style": "scss"
         }
       },
-      "root": "",
+      "root": ".",
       "sourceRoot": "src",
       "prefix": "pb",
       "architect": {
@@ -20,18 +20,11 @@
             "outputPath": "dist/personal-budget",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -82,19 +75,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
@@ -141,11 +126,6 @@
             "production": {
               "devServerTarget": "personal-budget:serve:production"
             }
-          },
-          "visual-regression": {
-            "builder": "./node_modules/.bin/ng",
-            "options": {
-              "script": "test:visual"
           }
         }
       }
@@ -153,10 +133,6 @@
   },
   "cli": {
     "analytics": "a49360fb-3ebf-4d30-a173-20603a0b5a79",
-    "schematicCollections": [
-      "@cypress/schematic",
-      "@schematics/angular"
-    ]
+    "schematicCollections": ["@cypress/schematic", "@schematics/angular"]
   }
-}
 }
