@@ -10,7 +10,7 @@ import { SessionExpirationDialogComponent } from 'src/app/session-expiration-dia
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://159.203.140.231:3100/api';
+  private apiUrl = 'http://159.203.140.231:3001/api';
   private jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient, private dialog: MatDialog) {}
