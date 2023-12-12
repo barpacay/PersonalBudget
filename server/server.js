@@ -9,10 +9,12 @@ app.use(express.json());
 app.use(cors());
 
 const connection = mysql.createConnection({
-  host: 'sql5.freemysqlhosting.net',
-  user: 'sql5668528',
-  password: 'QcvYTWkMkt',
-  database: 'sql5668528',
+  host: 'database-do-user-15358047-0.c.db.ondigitalocean.com',
+  user: 'doadmin',
+  password: 'AVNS_H-FHr7UDDnvoVphzNYM',
+  database: 'defaultdb',
+  port: 25060
+
 });
 
 connection.connect((err) => {
