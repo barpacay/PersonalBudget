@@ -30,7 +30,7 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   fetchDataAndDrawCharts(): void {
-    this.http.get('http://159.203.140.231:3000/fetch').subscribe((res: any) => {
+    this.http.get('http://159.203.140.231:3100/fetch').subscribe((res: any) => {
       this.updateDataSource(res);
       this.createCharts();
     });

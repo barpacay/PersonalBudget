@@ -56,14 +56,14 @@ export class ChartService {
 
 
   addBudgetEntry(entry: any): Observable<any> {
-    return this.http.post('http://159.203.140.231/add', entry)
+    return this.http.post('http://159.203.140.231:3100/add', entry)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getExpenses(): Observable<any[]> {
-    return this.http.get<any[]>('http://159.203.140.231/fetch')
+    return this.http.get<any[]>('http://159.203.140.231:3100/fetch')
       .pipe(
         catchError(this.handleError)
       );
