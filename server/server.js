@@ -123,6 +123,6 @@ app.post('/add', (req, res) => {
 
 app.use('/', express.static('public'));
 
-app.listen(3100, () => {
+app.listen(3200, () => {
   console.log('Server is listening on port 3100');
 });
